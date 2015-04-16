@@ -18,4 +18,4 @@
 include_recipe "apt"
 include_recipe "php"
 
-include_recipe "configure"
+include_recipe "php-configuration::configure"
