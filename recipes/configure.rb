@@ -22,11 +22,17 @@ template "/etc/php5/fpm/pool.d/www.conf" do
     source "www.erb"
     owner "root"
     group "root"
-    mode 00644
+    mode "0644"
+    notifies :restart, "service[php5-fpm]"
 end
 
-execute "restart php5-fpm" do
-  command "service php5-fpm restart"
-  user "root"
-  action :run
+#
+# Overwrite existing /etc/php5/fpm/conf.d/apc.conf with template one.
+#
+template "#{node['php']['ext_conf_dir']}/apc.ini" do
+  source "apc.ini.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  notifies :restart, "service[php5-fpm]"
 end

@@ -15,7 +15,6 @@
 # limitations under the License.
 #
 
-include_recipe "apt"
 include_recipe "php"
 
 include_recipe "php-configuration::configure"
