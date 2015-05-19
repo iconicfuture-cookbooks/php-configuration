@@ -23,7 +23,6 @@ template "/etc/php5/fpm/pool.d/www.conf" do
     owner "root"
     group "root"
     mode "0644"
-    notifies :restart, "service[php5-fpm]"
 end
 
 #
@@ -34,5 +33,14 @@ template "#{node['php']['ext_conf_dir']}/apc.ini" do
   owner "root"
   group "root"
   mode "0644"
-  notifies :restart, "service[php5-fpm]"
+end
+
+#
+# Workaround as the new PHP cookbook does not handle php5-fpm anymore,
+# so there is no service registered that can be notified by template changes
+#
+execute "restart php5-fpm" do
+  command "service php5-fpm restart"
+  user "root"
+  action :run
 end
